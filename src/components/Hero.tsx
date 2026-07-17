@@ -4,7 +4,12 @@ import { Badge } from "@/components/ui/Badge";
 
 export function Hero() {
   return (
-    <section id="top" className="relative overflow-hidden">
+    <section
+      id="top"
+      /* Fills the screen minus the 4rem sticky nav. svh (not vh) so mobile
+         browser chrome doesn't push the bottom of the hero out of view. */
+      className="relative flex min-h-[calc(100svh-4rem)] items-center overflow-hidden"
+    >
       {/* The one textured surface on the page — grid + radial falloff. */}
       <div
         aria-hidden="true"
@@ -19,13 +24,11 @@ export function Hero() {
         }}
       />
 
-      <div className="relative mx-auto w-full max-w-5xl px-6 pb-20 pt-16 sm:pb-28 sm:pt-24">
-        <div className="grid items-center gap-12 md:grid-cols-[1.4fr_1fr]">
+      <div className="relative mx-auto w-full max-w-5xl px-6 pb-14 pt-10 sm:pb-18 sm:pt-14">
+        <div className="grid items-center gap-10 md:grid-cols-[1.4fr_1fr]">
           <div>
-            <Badge variant="live">{profile.availability}</Badge>
-
-            <h1 className="mt-6 text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
-              {profile.name}
+            <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
+              {profile.heroHeading}
             </h1>
 
             <p className="mt-3 font-mono text-sm text-accent sm:text-base">{profile.title}</p>
@@ -39,23 +42,25 @@ export function Hero() {
                 href="#contact"
                 className="rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-canvas transition-opacity hover:opacity-90"
               >
-                Get in touch
+                Hire me
               </a>
               <a
                 href={profile.resumeUrl}
-                download
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="View resume (opens in a new tab)"
                 className="inline-flex items-center gap-2 rounded-lg border border-line px-5 py-2.5 text-sm font-medium text-text transition-colors hover:border-accent/50 hover:text-accent"
               >
                 <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
                   <path
-                    d="M7.5 1.5v9m0 0L4 7m3.5 3.5L11 7M2 13h11"
+                    d="M6 2.5H2.5v10h10V9M9.5 1.5h4m0 0v4m0-4L7 8"
                     stroke="currentColor"
                     strokeWidth="1.4"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   />
                 </svg>
-                Download résumé
+                View resume
               </a>
             </div>
 
@@ -65,7 +70,7 @@ export function Hero() {
           </div>
 
           <div className="order-first md:order-last">
-            <div className="relative mx-auto w-44 sm:w-56 md:w-full md:max-w-[280px]">
+            <div className="relative mx-auto w-52 sm:w-64 md:w-full md:max-w-[340px]">
               <div className="absolute -inset-px rounded-2xl bg-gradient-to-b from-accent/25 to-transparent" />
               <Image
                 src={profile.headshotUrl}
@@ -73,9 +78,13 @@ export function Hero() {
                 width={560}
                 height={560}
                 priority
-                sizes="(max-width: 768px) 224px, 280px"
+                sizes="(max-width: 640px) 208px, (max-width: 768px) 256px, 340px"
                 className="relative rounded-2xl border border-line object-cover"
               />
+            </div>
+
+            <div className="mt-5 flex justify-center">
+              <Badge variant="live">{profile.availability}</Badge>
             </div>
           </div>
         </div>

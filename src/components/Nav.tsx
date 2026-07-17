@@ -88,11 +88,10 @@ export function Nav() {
           ))}
           <li className="ml-2">
             <a
-              href={profile.resumeUrl}
-              download
-              className="rounded-md border border-line px-3 py-2 text-sm text-text transition-colors hover:border-accent/50 hover:text-accent"
+              href="#contact"
+              className="rounded-md bg-accent px-3.5 py-2 text-sm font-medium text-canvas transition-opacity hover:opacity-90"
             >
-              Résumé
+              Hire me
             </a>
           </li>
         </ul>
@@ -139,14 +138,13 @@ export function Nav() {
                 </a>
               </li>
             ))}
-            <li>
+            <li className="py-3">
               <a
-                href={profile.resumeUrl}
-                download
+                href="#contact"
                 onClick={() => setOpen(false)}
-                className="block py-3 text-sm text-accent"
+                className="block rounded-md bg-accent px-4 py-2.5 text-center text-sm font-medium text-canvas"
               >
-                Download résumé
+                Hire me
               </a>
             </li>
           </ul>

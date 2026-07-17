@@ -13,7 +13,7 @@ export function Experience() {
           className="absolute left-[7px] top-2 hidden h-full w-px bg-line sm:block"
         />
 
-        <div className="space-y-10">
+        <div className="space-y-8">
           {roles.map((role, i) => (
             <Reveal key={`${role.title}-${role.period}`} delay={i * 60}>
               <article className="relative sm:pl-10">

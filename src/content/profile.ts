@@ -5,7 +5,13 @@ export type ContactLink = {
 };
 
 export const profile = {
+  /** Formal name — used for the page title, OG tags, image alt, and footer. */
   name: "Roy F. Manzo",
+
+  /** The big <h1> in the hero. Kept separate from `name` so a conversational
+      greeting here doesn't leak into the page title or the copyright line. */
+  heroHeading: "Hi, I'm Roy Manzo",
+
   title: "GoHighLevel & AI Automation Specialist",
 
   // Shown in the hero, under the name.

@@ -36,8 +36,16 @@ body {
 
 html {
   scroll-behavior: smooth;
-  /* Offset anchor targets so the sticky nav doesn't cover section headings. */
-  scroll-padding-top: 5rem;
+  /* Offset anchor + snap targets so the sticky nav doesn't cover section headings. */
+  scroll-padding-top: 4rem;
+  /* "proximity", not "mandatory": Work is taller than the viewport, and mandatory
+     snapping would fight the user trying to read the middle of an oversized
+     section. Proximity only snaps when a boundary is already close. */
+  scroll-snap-type: y proximity;
+}
+
+section[id] {
+  scroll-snap-align: start;
 }
 
 ::selection {
@@ -78,6 +86,8 @@ html {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+    /* Snapping moves the page on its own; that's exactly what this opts out of. */
+    scroll-snap-type: none;
   }
 
   .reveal {
