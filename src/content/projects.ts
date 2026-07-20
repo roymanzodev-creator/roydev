@@ -1,83 +1,72 @@
 /**
- * PLACEHOLDER CONTENT — replace before sending this site to anyone.
+ * Case studies shown in the Work section.
  *
- * Every field marked TODO is a placeholder. The metrics are intentionally
- * fake-looking ("00%") so a real number is never implied by accident.
+ * Each entry is a real automation, with a screenshot of the workflow. Per the
+ * card design, only `problem`, `result`, and `stack` are shown as text.
  *
- * How to write a good case study here:
- *   problem  — what was broken, in the client's words. One or two sentences.
- *   approach — what you actually built. Name the tools.
- *   result   — what changed. A number if you have one; an honest outcome if not.
- *   metric   — the single number worth putting in big type. Omit if you don't have one.
+ * To add another: drop the screenshot in public/work/, then add an entry with
+ * `image` pointing at it.
  */
 
 export type Project = {
   slug: string;
   name: string;
-  blurb: string;
+  /** Screenshot in /public/work. Shown at the top of the card. */
+  image: string;
   problem: string;
-  approach: string;
   result: string;
-  metric?: {
-    value: string;
-    label: string;
-  };
   stack: string[];
-  /** Flip to false once real content replaces the placeholder copy. */
-  placeholder: boolean;
 };
 
 export const projects: Project[] = [
   {
-    slug: "lead-enrichment-pipeline",
-    name: "TODO: Lead Enrichment Pipeline",
-    blurb: "TODO: One line on what this system does and who it was for.",
+    slug: "lead-enrichment",
+    name: "Lead Enrichment System",
+    image: "/work/lead-enrichment.png",
     problem:
-      "TODO: Describe the manual process that existed before. Who was doing what by hand, and how often?",
-    approach:
-      "TODO: Describe what you built — the trigger, the enrichment step, where the data landed, and how the team got notified.",
+      "New leads arrived as little more than an email address. Someone had to look up each company by hand, judge how valuable the lead was, and decide who to tell — slow, inconsistent, and easy to drop.",
     result:
-      "TODO: Describe what changed for the team. Time saved, errors avoided, or volume handled.",
-    metric: { value: "00%", label: "TODO: what this number measures" },
-    stack: ["n8n", "Apollo", "Airtable", "Slack"],
-    placeholder: true,
+      "Every lead is now validated, enriched with company data from Apollo, scored into a value tier, and written to the CRM automatically. High-value leads fire an instant Slack alert, and a follow-up email is drafted with AI and sent without anyone touching it.",
+    stack: ["n8n", "Apollo", "Google Sheets", "Slack", "Google Gemini", "Gmail"],
   },
   {
-    slug: "ai-lead-scoring",
-    name: "TODO: AI Lead Scoring & Follow-Up",
-    blurb: "TODO: One line on what this system does and who it was for.",
+    slug: "lead-scoring",
+    name: "Lead Scoring & Follow-Up Automation",
+    image: "/work/lead-scoring.png",
     problem:
-      "TODO: Describe how leads were being triaged before, and what was falling through the cracks.",
-    approach:
-      "TODO: Describe the scoring logic, which model you used, and how the follow-up sequences were wired up.",
-    result: "TODO: Describe the outcome for response time or conversion.",
-    metric: { value: "00", label: "TODO: what this number measures" },
-    stack: ["GoHighLevel", "OpenAI", "n8n"],
-    placeholder: true,
+      "Inbound form leads were scored by gut feel and followed up whenever someone got to them. Hot leads cooled off waiting, and the CRM fell out of sync with reality.",
+    result:
+      "Submissions are cleaned, scored HOT / WARM / COLD by an AI model, and pushed straight into GoHighLevel as contacts. Each tier gets its own Slack notification and email sequence the moment it lands, and failures are logged and flagged instead of disappearing silently.",
+    stack: ["n8n", "GoHighLevel", "Google Sheets", "Slack", "Gmail", "AI Model"],
   },
   {
-    slug: "support-chatbot",
-    name: "TODO: Knowledge-Based Support Assistant",
-    blurb: "TODO: One line on what this system does and who it was for.",
+    slug: "rag-chatbot",
+    name: "RAG Knowledge-Base Chatbot",
+    image: "/work/rag-chatbot.png",
     problem:
-      "TODO: Describe the support load — what questions kept coming in, and who was answering them.",
-    approach:
-      "TODO: Describe how you built the knowledge base, which model answers, and what happens on an escalation.",
-    result: "TODO: Describe the change in ticket volume or response time.",
-    metric: { value: "00%", label: "TODO: what this number measures" },
-    stack: ["Claude", "n8n", "Supabase"],
-    placeholder: true,
+      "The team wanted a chatbot that answered from their own documents, but the documents kept changing — so any answer was only as current as the last manual re-upload.",
+    result:
+      "A Google Drive knowledge base now syncs itself into a Supabase vector store: files added, updated, or deleted are re-embedded automatically. An AI agent answers questions against that always-current store, with memory for natural back-and-forth.",
+    stack: ["n8n", "Supabase", "Google Drive", "Google Vertex", "OpenRouter", "AI Agent"],
   },
   {
-    slug: "ghl-crm-overhaul",
-    name: "TODO: GoHighLevel CRM Overhaul",
-    blurb: "TODO: One line on what this system does and who it was for.",
+    slug: "invoice-automation",
+    name: "Invoice Processing Automation",
+    image: "/work/invoice-automation.png",
     problem:
-      "TODO: Describe the state of the CRM when you inherited it — messy pipelines, no follow-up, whatever it was.",
-    approach:
-      "TODO: Describe the rebuild — pipeline structure, automations, and any integrations you added.",
-    result: "TODO: Describe what the team could do afterward that they couldn't before.",
-    stack: ["GoHighLevel", "Twilio", "Google Calendar"],
-    placeholder: true,
+      "Invoices landed as PDFs in a Drive folder and had to be opened, read, and typed into a spreadsheet one by one — tedious, and a magnet for typos.",
+    result:
+      "A new PDF in Drive now triggers the workflow end to end: the invoice is parsed, the key fields are pulled out by an LLM into structured data, the record is logged to the database, and an internal notification email goes out — no manual entry at all.",
+    stack: ["n8n", "Google Drive", "OpenRouter", "Google Sheets", "Gmail"],
+  },
+  {
+    slug: "fb-faq-agent",
+    name: "Facebook FAQ AI Agent",
+    image: "/work/fb-faq-agent.png",
+    problem:
+      "A Facebook page kept getting the same questions, and someone had to sit there answering them by hand — with replies slowing down outside working hours.",
+    result:
+      "A webhook-driven AI agent now answers Messenger FAQs automatically from a knowledge base, with short-term memory for context, and replies around the clock. Facebook's verification handshake is handled in the same workflow.",
+    stack: ["n8n", "OpenAI", "Facebook Messenger", "Webhooks", "Knowledge Base"],
   },
 ];

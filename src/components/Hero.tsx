@@ -27,20 +27,34 @@ export function Hero() {
       <div className="relative mx-auto w-full max-w-5xl px-6 pb-14 pt-10 sm:pb-18 sm:pt-14">
         <div className="grid items-center gap-10 md:grid-cols-[1.4fr_1fr]">
           <div>
-            <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
+            <h1
+              className="hero-item text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl"
+              style={{ "--delay": "80ms" } as React.CSSProperties}
+            >
               {profile.heroHeading}
             </h1>
 
-            <p className="mt-3 font-mono text-sm text-accent sm:text-base">{profile.title}</p>
+            <p
+              className="hero-item mt-3 font-mono text-sm text-accent sm:text-base"
+              style={{ "--delay": "160ms" } as React.CSSProperties}
+            >
+              {profile.title}
+            </p>
 
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-text-muted">
+            <p
+              className="hero-item mt-6 max-w-xl text-lg leading-relaxed text-text-muted"
+              style={{ "--delay": "240ms" } as React.CSSProperties}
+            >
               {profile.tagline}
             </p>
 
-            <div className="mt-9 flex flex-wrap items-center gap-3">
+            <div
+              className="hero-item mt-9 flex flex-wrap items-center gap-3"
+              style={{ "--delay": "320ms" } as React.CSSProperties}
+            >
               <a
                 href="#contact"
-                className="rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-canvas transition-opacity hover:opacity-90"
+                className="rounded-lg bg-accent px-6 py-3 text-base font-medium text-canvas transition-opacity hover:opacity-90"
               >
                 Hire me
               </a>
@@ -49,9 +63,9 @@ export function Hero() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="View resume (opens in a new tab)"
-                className="inline-flex items-center gap-2 rounded-lg border border-line px-5 py-2.5 text-sm font-medium text-text transition-colors hover:border-accent/50 hover:text-accent"
+                className="inline-flex items-center gap-2 rounded-lg border border-line px-6 py-3 text-base font-medium text-text transition-colors hover:border-accent/50 hover:text-accent"
               >
-                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
+                <svg width="17" height="17" viewBox="0 0 15 15" fill="none" aria-hidden="true">
                   <path
                     d="M6 2.5H2.5v10h10V9M9.5 1.5h4m0 0v4m0-4L7 8"
                     stroke="currentColor"
@@ -64,13 +78,19 @@ export function Hero() {
               </a>
             </div>
 
-            <p className="mt-8 font-mono text-xs text-text-dim">
+            <p
+              className="hero-item mt-8 font-mono text-xs text-text-dim"
+              style={{ "--delay": "400ms" } as React.CSSProperties}
+            >
               {profile.location} · {profile.timezone}
             </p>
           </div>
 
           <div className="order-first md:order-last">
-            <div className="relative mx-auto w-52 sm:w-64 md:w-full md:max-w-[340px]">
+            <div
+              className="hero-item relative mx-auto w-52 sm:w-64 md:w-full md:max-w-[340px]"
+              style={{ "--delay": "0ms" } as React.CSSProperties}
+            >
               <div className="absolute -inset-px rounded-2xl bg-gradient-to-b from-accent/25 to-transparent" />
               <Image
                 src={profile.headshotUrl}
@@ -83,7 +103,10 @@ export function Hero() {
               />
             </div>
 
-            <div className="mt-5 flex justify-center">
+            <div
+              className="hero-item mt-5 flex justify-center"
+              style={{ "--delay": "480ms" } as React.CSSProperties}
+            >
               <Badge variant="live">{profile.availability}</Badge>
             </div>
           </div>

@@ -1,0 +1,204 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { chat } from "@/content/chat";
+
+type Message = {
+  role: "assistant" | "user";
+  text: string;
+};
+
+/**
+ * Send a message to the configured webhook.
+ *
+ * Contract (once chat.webhookUrl is set): POSTs JSON
+ *   { message: string, history: { role, text }[] }
+ * and expects a JSON response with a `reply` (or `message`/`text`) string.
+ * Adjust the parsing below to match whatever the webhook actually returns.
+ */
+async function sendToWebhook(message: string, history: Message[]): Promise<string> {
+  if (!chat.webhookUrl) {
+    // No backend yet — simulate a short round-trip so the UI feels real.
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    return chat.fallbackReply;
+  }
+
+  const res = await fetch(chat.webhookUrl, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message, history }),
+  });
+
+  if (!res.ok) throw new Error(`Webhook responded ${res.status}`);
+
+  const data = await res.json();
+  return data.reply ?? data.message ?? data.text ?? chat.errorReply;
+}
+
+export function ChatWidget() {
+  const [open, setOpen] = useState(false);
+  const [messages, setMessages] = useState<Message[]>([
+    { role: "assistant", text: chat.greeting },
+  ]);
+  const [input, setInput] = useState("");
+  const [sending, setSending] = useState(false);
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Focus the input when the panel opens.
+  useEffect(() => {
+    if (open) inputRef.current?.focus();
+  }, [open]);
+
+  // Keep the latest message in view as the thread grows.
+  useEffect(() => {
+    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
+  }, [messages, sending]);
+
+  // Escape closes the panel.
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    const text = input.trim();
+    if (!text || sending) return;
+
+    const history = messages;
+    setMessages((prev) => [...prev, { role: "user", text }]);
+    setInput("");
+    setSending(true);
+
+    try {
+      const reply = await sendToWebhook(text, history);
+      setMessages((prev) => [...prev, { role: "assistant", text: reply }]);
+    } catch {
+      setMessages((prev) => [...prev, { role: "assistant", text: chat.errorReply }]);
+    } finally {
+      setSending(false);
+    }
+  }
+
+  return (
+    <>
+      {/* Launcher */}
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        aria-controls="chat-panel"
+        aria-label={open ? "Close chat" : chat.launcherLabel}
+        className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-accent text-canvas shadow-lg shadow-accent/20 transition-transform hover:scale-105 focus-visible:scale-105"
+      >
+        {open ? (
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+            <path
+              d="M6 6l10 10M16 6L6 16"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+            />
+          </svg>
+        ) : (
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path
+              d="M4 5.5A1.5 1.5 0 015.5 4h13A1.5 1.5 0 0120 5.5v9a1.5 1.5 0 01-1.5 1.5H9l-4 3.5V16H5.5A1.5 1.5 0 014 14.5v-9z"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinejoin="round"
+            />
+          </svg>
+        )}
+      </button>
+
+      {/* Panel */}
+      {open && (
+        <div
+          id="chat-panel"
+          role="dialog"
+          aria-label={chat.panelTitle}
+          className="fixed bottom-24 right-5 z-50 flex h-[min(30rem,70vh)] w-[min(22rem,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-2xl"
+        >
+          {/* Header */}
+          <div className="flex items-center gap-3 border-b border-line bg-surface-2 px-4 py-3">
+            <span className="relative flex h-2 w-2" aria-hidden="true">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+            </span>
+            <div>
+              <p className="text-sm font-medium text-text">{chat.panelTitle}</p>
+              <p className="font-mono text-[10px] text-text-dim">{chat.panelSubtitle}</p>
+            </div>
+          </div>
+
+          {/* Messages */}
+          <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
+            {messages.map((m, i) => (
+              <div
+                key={i}
+                className={m.role === "user" ? "flex justify-end" : "flex justify-start"}
+              >
+                <p
+                  className={`max-w-[85%] rounded-2xl px-3.5 py-2 text-sm leading-relaxed ${
+                    m.role === "user"
+                      ? "rounded-br-sm bg-accent text-canvas"
+                      : "rounded-bl-sm bg-surface-2 text-text-muted"
+                  }`}
+                >
+                  {m.text}
+                </p>
+              </div>
+            ))}
+
+            {sending && (
+              <div className="flex justify-start" aria-live="polite">
+                <p className="rounded-2xl rounded-bl-sm bg-surface-2 px-3.5 py-2.5 text-sm text-text-dim">
+                  <span className="inline-flex gap-1">
+                    <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-text-dim [animation-delay:-0.3s]" />
+                    <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-text-dim [animation-delay:-0.15s]" />
+                    <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-text-dim" />
+                  </span>
+                </p>
+              </div>
+            )}
+          </div>
+
+          {/* Input */}
+          <form onSubmit={handleSubmit} className="flex items-center gap-2 border-t border-line p-3">
+            <input
+              ref={inputRef}
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder={chat.inputPlaceholder}
+              aria-label="Message"
+              className="min-w-0 flex-1 rounded-lg border border-line bg-canvas px-3 py-2 text-sm text-text placeholder:text-text-dim focus:border-accent/50 focus:outline-none"
+            />
+            <button
+              type="submit"
+              disabled={!input.trim() || sending}
+              aria-label="Send message"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent text-canvas transition-opacity hover:opacity-90 disabled:opacity-40"
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path
+                  d="M2 8l12-5.5L9 14l-2.5-4.5L2 8z"
+                  stroke="currentColor"
+                  strokeWidth="1.4"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+          </form>
+        </div>
+      )}
+    </>
+  );
+}

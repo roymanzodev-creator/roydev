@@ -67,9 +67,8 @@ export function Nav() {
         aria-label="Main navigation"
         className="mx-auto flex h-16 w-full max-w-5xl items-center justify-between px-6"
       >
-        <a href="#top" className="font-mono text-sm font-medium tracking-tight">
-          {profile.name.split(" ")[0]}
-          <span className="text-accent">.</span>
+        <a href="#top" aria-label="RoyDev — back to top" className="font-mono text-base font-semibold tracking-tight">
+          Roy<span className="text-accent">Dev</span>
         </a>
 
         <ul className="hidden items-center gap-1 md:flex">
@@ -88,10 +87,20 @@ export function Nav() {
           ))}
           <li className="ml-2">
             <a
-              href="#contact"
-              className="rounded-md bg-accent px-3.5 py-2 text-sm font-medium text-canvas transition-opacity hover:opacity-90"
+              href={profile.resumeUrl}
+              download
+              className="inline-flex items-center gap-1.5 rounded-md bg-accent px-3.5 py-2 text-sm font-medium text-canvas transition-opacity hover:opacity-90"
             >
-              Hire me
+              <svg width="14" height="14" viewBox="0 0 15 15" fill="none" aria-hidden="true">
+                <path
+                  d="M7.5 1.5v9m0 0L4 7m3.5 3.5L11 7M2 13h11"
+                  stroke="currentColor"
+                  strokeWidth="1.4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              Resume
             </a>
           </li>
         </ul>
@@ -140,11 +149,21 @@ export function Nav() {
             ))}
             <li className="py-3">
               <a
-                href="#contact"
+                href={profile.resumeUrl}
+                download
                 onClick={() => setOpen(false)}
-                className="block rounded-md bg-accent px-4 py-2.5 text-center text-sm font-medium text-canvas"
+                className="flex items-center justify-center gap-1.5 rounded-md bg-accent px-4 py-2.5 text-center text-sm font-medium text-canvas"
               >
-                Hire me
+                <svg width="14" height="14" viewBox="0 0 15 15" fill="none" aria-hidden="true">
+                  <path
+                    d="M7.5 1.5v9m0 0L4 7m3.5 3.5L11 7M2 13h11"
+                    stroke="currentColor"
+                    strokeWidth="1.4"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                Resume
               </a>
             </li>
           </ul>
