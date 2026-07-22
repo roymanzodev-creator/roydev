@@ -12,26 +12,22 @@ export type Education = {
   period: string;
 };
 
+export type SideProject = {
+  title: string;
+  org: string;
+  description: string;
+};
+
 export const roles: Role[] = [
   {
     title: "Freelance AI Automation Specialist",
     org: "Self-employed",
-    period: "Oct 2025 – Present",
+    period: "Oct 2024 – Present",
     current: true,
     bullets: [
-      "Design and build custom AI automation workflows in n8n, integrating LLMs (OpenAI, Claude) with tools like Supabase, Airtable, and Google Workspace to eliminate manual client processes.",
+      "Design and build custom AI automation workflows in n8n, integrating LLMs (OpenAI, Claude) with Supabase, Airtable, and Google Workspace to eliminate manual client processes.",
       "Develop AI agents for email handling, data extraction, and customer support, combining prompt engineering with structured backend logic.",
-    ],
-  },
-  {
-    title: "Freelance GoHighLevel Funnel Builder",
-    org: "Self-employed",
-    period: "Nov 2024 – Present",
-    current: true,
-    bullets: [
-      "Designed and built custom sales funnels, landing pages, and websites in GoHighLevel for small business and coaching clients.",
-      "Set up automated email/SMS follow-up sequences, lead pipelines, and CRM workflows to capture and convert leads.",
-      "Integrated GoHighLevel with third-party tools (n8n, payment processors, calendars) to streamline client operations end-to-end.",
+      "Cut manual processing time by ~75% across multiple client workflows.",
     ],
   },
   {
@@ -42,8 +38,28 @@ export const roles: Role[] = [
     bullets: [
       "Managed CRM pipelines, customer records, and appointment scheduling within GoHighLevel.",
       "Built automation workflows for lead nurturing, SMS/email campaigns, and appointment reminders.",
-      "Improved sales operations by reducing manual CRM tasks and maintaining accurate customer data.",
+      "Reduced manual CRM workload by 70% while maintaining data accuracy.",
     ],
+  },
+  {
+    title: "Quality Assurance Administrator",
+    org: "IdeaHub IT Solutions Provider Inc.",
+    period: "Sep 2018 – Jul 2022",
+    current: false,
+    bullets: [
+      "Reviewed, approved, or rejected incoming leads based on client campaign requirements to maintain lead quality and accuracy.",
+      "Performed QA testing on the company's survey website alongside the development team, identifying and reporting issues before release.",
+      "Generated daily QA reports to track lead quality and testing outcomes.",
+    ],
+  },
+];
+
+export const sideProjects: SideProject[] = [
+  {
+    title: "Founder & Creator",
+    org: "Outsider Wild Rift (YouTube)",
+    description:
+      "Run a gaming channel end-to-end: content strategy, SEO-driven title and tag optimization, and a repeatable publishing workflow to grow audience and watch time. Apply the same systems-thinking and data-driven optimization to client automation work.",
   },
 ];
 

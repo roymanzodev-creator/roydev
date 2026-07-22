@@ -1,4 +1,4 @@
-import { roles, education } from "@/content/experience";
+import { roles, sideProjects, education } from "@/content/experience";
 import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 import { Badge } from "@/components/ui/Badge";
@@ -58,6 +58,33 @@ export function Experience() {
             </article>
           </Reveal>
         </div>
+      </div>
+
+      {/* Side projects sit outside the employment timeline — they're relevant
+          experience, but not roles. */}
+      <div className="mt-14 border-t border-line pt-10">
+        <Reveal>
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
+            Projects &amp; additional experience
+          </p>
+
+          <div className="mt-6 space-y-6">
+            {sideProjects.map((project) => (
+              <article
+                key={`${project.title}-${project.org}`}
+                className="rounded-xl border border-line bg-surface p-5 sm:p-6"
+              >
+                <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                  <h3 className="text-lg font-medium text-text">{project.title}</h3>
+                  <span className="font-mono text-xs text-text-dim">{project.org}</span>
+                </div>
+                <p className="mt-3 text-sm leading-relaxed text-text-muted">
+                  {project.description}
+                </p>
+              </article>
+            ))}
+          </div>
+        </Reveal>
       </div>
     </Section>
   );

@@ -5,32 +5,40 @@ export type SkillGroup = {
 
 export const skillGroups: SkillGroup[] = [
   {
-    title: "Automation",
-    skills: ["n8n", "Zapier", "GoHighLevel"],
+    title: "Automation & AI",
+    skills: [
+      "n8n",
+      "Zapier",
+      "GoHighLevel",
+      "OpenAI & Claude APIs",
+      "Prompt Engineering",
+      "AI Agents",
+    ],
   },
   {
-    title: "AI",
-    skills: ["OpenAI", "Claude", "Claude Code", "Lovable", "Prompt Engineering", "AI Agents"],
-  },
-  {
-    title: "CRM",
+    title: "CRM & Sales Ops",
     skills: [
       "Lead Management",
-      "CRM Automation",
       "Pipeline Management",
+      "CRM Automation",
+      "Landing Pages / Sales Funnels",
       "Apollo",
     ],
   },
   {
-    title: "Funnels & Web",
-    skills: ["Custom JavaScript", "HTML & CSS", "Landing Pages", "Sales Funnels"],
+    title: "Web Development",
+    skills: ["JavaScript", "React", "Express.js", "HTML & CSS", "REST APIs", "Webhooks"],
+  },
+  {
+    title: "AI-Assisted Build Tools",
+    skills: ["Claude Code", "Lovable"],
+  },
+  {
+    title: "Creative",
+    skills: ["Video Editing", "Graphic Design"],
   },
   {
     title: "Integrations",
-    skills: ["REST APIs", "Webhooks", "Supabase", "Airtable", "Google Workspace"],
-  },
-  {
-    title: "Also familiar with",
-    skills: ["React", "Express.js", "Full-Stack Basics"],
+    skills: ["Supabase", "Airtable", "Google Workspace"],
   },
 ];

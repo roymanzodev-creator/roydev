@@ -10,7 +10,19 @@
  *
  * Set N8N_CONTACT_WEBHOOK_URL in .env.local, and in your host's env vars when
  * you deploy — .env.local is gitignored, so it does not travel with the repo.
+ *
+ * Abuse controls:
+ *   - per-IP rate limit here, so floods never reach n8n and never burn an
+ *     execution from the n8n Cloud quota
+ *   - a shared secret header, checked by the workflow, so the webhook URL
+ *     rejects anything that didn't come through this route
  */
+
+import { getClientIp, rateLimit } from "@/lib/rate-limit";
+
+/** 5 submissions per IP per 10 minutes — generous for a human, useless to a bot. */
+const MAX_SUBMISSIONS = 5;
+const WINDOW_MS = 10 * 60 * 1000;
 
 export async function POST(request: Request) {
   const webhookUrl = process.env.N8N_CONTACT_WEBHOOK_URL;
@@ -18,6 +30,17 @@ export async function POST(request: Request) {
   if (!webhookUrl) {
     console.error("N8N_CONTACT_WEBHOOK_URL is not set");
     return Response.json({ error: "Contact form is not configured." }, { status: 500 });
+  }
+
+  // Rate limit before parsing or forwarding — cheapest possible rejection.
+  const ip = getClientIp(request);
+  const { allowed, retryAfter } = rateLimit(ip, MAX_SUBMISSIONS, WINDOW_MS);
+
+  if (!allowed) {
+    return Response.json(
+      { error: "Too many messages sent. Please try again shortly." },
+      { status: 429, headers: { "Retry-After": String(retryAfter) } },
+    );
   }
 
   let body: { name?: string; email?: string; message?: string };
@@ -42,7 +65,13 @@ export async function POST(request: Request) {
   try {
     const res = await fetch(webhookUrl, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        // The workflow checks this, so hitting the n8n URL directly fails.
+        ...(process.env.N8N_WEBHOOK_SECRET
+          ? { "x-webhook-secret": process.env.N8N_WEBHOOK_SECRET }
+          : {}),
+      },
       body: JSON.stringify({
         name,
         email,

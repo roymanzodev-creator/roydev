@@ -9,7 +9,7 @@ export const chat = {
   panelSubtitle: "Usually replies within a day",
 
   /** The first message shown when the panel opens. Static — always displayed. */
-  greeting: "How can I help you today?",
+  greeting: "Hi, I'm Roy. How can I help you today?",
 
   /** Placeholder text inside the message input. */
   inputPlaceholder: "Type your message…",

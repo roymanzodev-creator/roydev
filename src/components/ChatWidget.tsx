@@ -1,7 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { chat } from "@/content/chat";
+import { profile } from "@/content/profile";
 
 type Message = {
   role: "assistant" | "user";
@@ -128,9 +130,19 @@ export function ChatWidget() {
         >
           {/* Header */}
           <div className="flex items-center gap-3 border-b border-line bg-surface-2 px-4 py-3">
-            <span className="relative flex h-2 w-2" aria-hidden="true">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+            <span className="relative shrink-0">
+              <Image
+                src={profile.headshotUrl}
+                alt={profile.name}
+                width={80}
+                height={80}
+                className="h-9 w-9 rounded-full border border-line object-cover"
+              />
+              {/* Online dot, tucked into the avatar's corner */}
+              <span
+                aria-hidden="true"
+                className="absolute -bottom-0.5 -right-0.5 flex h-2.5 w-2.5 rounded-full border-2 border-surface-2 bg-accent"
+              />
             </span>
             <div>
               <p className="text-sm font-medium text-text">{chat.panelTitle}</p>
@@ -143,8 +155,21 @@ export function ChatWidget() {
             {messages.map((m, i) => (
               <div
                 key={i}
-                className={m.role === "user" ? "flex justify-end" : "flex justify-start"}
+                className={
+                  m.role === "user"
+                    ? "flex justify-end"
+                    : "flex items-end justify-start gap-2"
+                }
               >
+                {m.role === "assistant" && (
+                  <Image
+                    src={profile.headshotUrl}
+                    alt=""
+                    width={56}
+                    height={56}
+                    className="h-6 w-6 shrink-0 rounded-full border border-line object-cover"
+                  />
+                )}
                 <p
                   className={`max-w-[85%] rounded-2xl px-3.5 py-2 text-sm leading-relaxed ${
                     m.role === "user"
@@ -158,7 +183,14 @@ export function ChatWidget() {
             ))}
 
             {sending && (
-              <div className="flex justify-start" aria-live="polite">
+              <div className="flex items-end justify-start gap-2" aria-live="polite">
+                <Image
+                  src={profile.headshotUrl}
+                  alt=""
+                  width={56}
+                  height={56}
+                  className="h-6 w-6 shrink-0 rounded-full border border-line object-cover"
+                />
                 <p className="rounded-2xl rounded-bl-sm bg-surface-2 px-3.5 py-2.5 text-sm text-text-dim">
                   <span className="inline-flex gap-1">
                     <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-text-dim [animation-delay:-0.3s]" />
