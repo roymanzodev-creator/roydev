@@ -36,6 +36,17 @@ export const profile = {
   email: "roymanzodev@gmail.com",
   phone: "+63 998 487 1686",
 
+  /**
+   * Where the contact form POSTs.
+   *
+   * This is our own API route, which forwards to the n8n webhook server-side
+   * (see src/app/api/contact/route.ts). The actual webhook URL lives in
+   * N8N_CONTACT_WEBHOOK_URL so it never reaches the browser.
+   *
+   * Set this to "" to fall back to a mailto: handoff instead.
+   */
+  contactFormEndpoint: "/api/contact",
+
   // Paragraphs for the About section, written for a hiring manager.
   about: [
     "I'm a GoHighLevel and AI automation specialist. Most of my work starts the same way: a team is drowning in manual steps — copying leads between tools, chasing follow-ups, answering the same questions over and over — and needs someone to turn that into a system that runs without them.",
