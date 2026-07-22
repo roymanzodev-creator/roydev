@@ -22,11 +22,25 @@ npm run lint
 | `src/content/experience.ts` | Roles timeline and education |
 | `src/content/projects.ts` | Case studies |
 
-### Before sending this to anyone
+### Still outstanding
 
-1. **Replace the placeholder case studies.** `src/content/projects.ts` ships with `TODO` copy and fake `00%` metrics. Rewrite each one, then set `placeholder: false`. While any project has `placeholder: true`, an amber warning banner shows above the Work section and each card gets a "Draft" badge — so placeholder content can't ship unnoticed.
-2. **Fix the LinkedIn URL** in `src/content/profile.ts` — it's currently a guess.
-3. **Update `siteUrl`** in `src/content/profile.ts` if you deploy somewhere other than `roy-dev.vercel.app`. It drives the canonical URL and OG tags.
+1. **Fix the LinkedIn URL** in `src/content/profile.ts` — it's still a guess.
+2. **Add the n8n secret check.** The contact route sends an `x-webhook-secret`
+   header, but nothing verifies it until the workflow has an IF node comparing
+   `{{ $json.headers['x-webhook-secret'] }}` to `N8N_WEBHOOK_SECRET`. Without it
+   the webhook URL is reachable directly.
+
+## Deploying
+
+The site is live at `https://roymanzo.dev` (Vercel, deployed from `main`).
+
+Because `.env.local` is gitignored, both variables must be set in the host's
+environment or the contact form fails on every submission:
+
+| Variable | Purpose |
+|---|---|
+| `N8N_CONTACT_WEBHOOK_URL` | Where the contact route forwards submissions |
+| `N8N_WEBHOOK_SECRET` | Sent as `x-webhook-secret`; the workflow should verify it |
 
 ## Assets
 

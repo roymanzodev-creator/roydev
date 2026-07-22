@@ -24,8 +24,8 @@ export const profile = {
   location: "Butuan City, Philippines",
   timezone: "PHT (UTC+8) · Remote, flexible with US & EU hours",
 
-  // TODO: update if you buy a custom domain. Used for OG tags and canonical URL.
-  siteUrl: "https://roy-dev.vercel.app",
+  // Live domain. Drives the canonical URL and OG/Twitter preview tags.
+  siteUrl: "https://roymanzo.dev",
 
   metaDescription:
     "Roy F. Manzo is a GoHighLevel & AI Automation Specialist who builds funnels, CRM workflows, and AI automations with n8n, OpenAI, and Claude. Open to part-time or full-time roles.",
@@ -67,9 +67,8 @@ export const contactLinks: ContactLink[] = [
     href: `tel:${profile.phone.replace(/\s/g, "")}`,
   },
   {
-    // TODO: replace with your real LinkedIn URL.
     label: "LinkedIn",
-    value: "linkedin.com/in/roymanzo",
-    href: "https://www.linkedin.com/in/roymanzo",
+    value: "linkedin.com/in/roy-manzo",
+    href: "https://www.linkedin.com/in/roy-manzo",
   },
 ];
