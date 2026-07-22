@@ -1,18 +1,28 @@
+/** Which icon the footer draws for a link. See Footer.tsx for the shapes. */
+export type ContactIcon = "email" | "phone" | "linkedin" | "briefcase";
+
 export type ContactLink = {
   label: string;
   value: string;
   href: string;
+  icon: ContactIcon;
 };
 
 export const profile = {
   /** Formal name — used for the page title, OG tags, image alt, and footer. */
   name: "Roy F. Manzo",
 
+  /** Everyday name, without the middle initial. Used in the footer. */
+  shortName: "Roy Manzo",
+
   /** The big <h1> in the hero. Kept separate from `name` so a conversational
       greeting here doesn't leak into the page title or the copyright line. */
   heroHeading: "Hi, I'm Roy Manzo",
 
   title: "GoHighLevel & AI Automation Specialist",
+
+  /** One-liner in the footer — shorter and punchier than the hero tagline. */
+  footerTagline: "I help businesses automate the busywork and ship client systems fast.",
 
   // Shown in the hero, under the name.
   tagline:
@@ -22,7 +32,7 @@ export const profile = {
   availability: "Open to part-time or full-time roles",
 
   location: "Butuan City, Philippines",
-  timezone: "PHT (UTC+8) · Remote, flexible with US & EU hours",
+  timezone: "PHT (UTC+8)",
 
   // Live domain. Drives the canonical URL and OG/Twitter preview tags.
   siteUrl: "https://roymanzo.dev",
@@ -60,15 +70,32 @@ export const contactLinks: ContactLink[] = [
     label: "Email",
     value: profile.email,
     href: `mailto:${profile.email}?subject=${encodeURIComponent("Role opportunity for Roy")}`,
+    icon: "email",
   },
   {
     label: "Phone",
     value: profile.phone,
     href: `tel:${profile.phone.replace(/\s/g, "")}`,
+    icon: "phone",
   },
   {
     label: "LinkedIn",
     value: "linkedin.com/in/roy-manzo",
     href: "https://www.linkedin.com/in/roy-manzo",
+    icon: "linkedin",
+  },
+];
+
+/**
+ * Hiring-platform profiles. Rendered in the footer only — kept separate from
+ * `contactLinks` so the Contact section stays focused on direct ways to reach
+ * Roy. Add Upwork, Fiverr, etc. here if they're worth linking later.
+ */
+export const profileLinks: ContactLink[] = [
+  {
+    label: "OnlineJobs.ph",
+    value: "OnlineJobs.ph",
+    href: "https://v2.onlinejobs.ph/jobseekers/info/749513",
+    icon: "briefcase",
   },
 ];

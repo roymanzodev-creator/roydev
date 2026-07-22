@@ -27,8 +27,15 @@ export function Hero() {
       <div className="relative mx-auto w-full max-w-5xl px-6 pb-14 pt-10 sm:pb-18 sm:pt-14">
         <div className="grid items-center gap-10 md:grid-cols-[1.4fr_1fr]">
           <div>
+            <div
+              className="hero-item"
+              style={{ "--delay": "40ms" } as React.CSSProperties}
+            >
+              <Badge variant="live">{profile.availability}</Badge>
+            </div>
+
             <h1
-              className="hero-item text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl"
+              className="hero-item mt-5 text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl"
               style={{ "--delay": "80ms" } as React.CSSProperties}
             >
               {profile.heroHeading}
@@ -101,13 +108,6 @@ export function Hero() {
                 sizes="(max-width: 640px) 208px, (max-width: 768px) 256px, 340px"
                 className="relative rounded-2xl border border-line object-cover"
               />
-            </div>
-
-            <div
-              className="hero-item mt-5 flex justify-center"
-              style={{ "--delay": "480ms" } as React.CSSProperties}
-            >
-              <Badge variant="live">{profile.availability}</Badge>
             </div>
           </div>
         </div>
