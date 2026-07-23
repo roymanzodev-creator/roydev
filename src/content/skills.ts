@@ -27,7 +27,7 @@ export const skillGroups: SkillGroup[] = [
   },
   {
     title: "Web Development",
-    skills: ["JavaScript", "React", "Express.js", "HTML & CSS", "REST APIs", "Webhooks"],
+    skills: ["JavaScript", "React", "Express.js", "HTML & CSS", "Supabase"],
   },
   {
     title: "AI-Assisted Build Tools",
@@ -39,6 +39,6 @@ export const skillGroups: SkillGroup[] = [
   },
   {
     title: "Integrations",
-    skills: ["Supabase", "Airtable", "Google Workspace"],
+    skills: ["REST APIs", "Webhooks", "Airtable", "Google Workspace"],
   },
 ];
