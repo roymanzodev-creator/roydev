@@ -24,9 +24,9 @@ export const projects: Project[] = [
     name: "Lead Enrichment System",
     image: "/work/lead-enrichment.png",
     problem:
-      "New leads arrived as little more than an email address. Someone had to look up each company by hand, judge how valuable the lead was, and decide who to tell — slow, inconsistent, and easy to drop.",
+      "Manual lead research and data entry wasted time, increased costs, and delayed sales follow-ups.",
     result:
-      "Every lead is now validated, enriched with company data from Apollo, scored into a value tier, and written to the CRM automatically. High-value leads fire an instant Slack alert, and a follow-up email is drafted with AI and sent without anyone touching it.",
+      "Automated lead enrichment saves time and costs by instantly validating and enriching lead data, improving accuracy, and enabling faster follow-ups.",
     stack: ["n8n", "Apollo", "Google Sheets", "Slack", "Google Gemini", "Gmail"],
   },
   {
@@ -34,9 +34,9 @@ export const projects: Project[] = [
     name: "Lead Scoring & Follow-Up Automation",
     image: "/work/lead-scoring.png",
     problem:
-      "Inbound form leads were scored by gut feel and followed up whenever someone got to them. Hot leads cooled off waiting, and the CRM fell out of sync with reality.",
+      "Manual lead qualification and follow-ups were slow, inconsistent, and increased operational costs.",
     result:
-      "Submissions are cleaned, scored HOT / WARM / COLD by an AI model, and pushed straight into GoHighLevel as contacts. Each tier gets its own Slack notification and email sequence the moment it lands, and failures are logged and flagged instead of disappearing silently.",
+      "Automated lead scoring and follow-ups save time and costs by prioritizing high-value leads, sending timely responses, and improving conversion rates.",
     stack: ["n8n", "GoHighLevel", "Google Sheets", "Slack", "Gmail", "AI Model"],
   },
   {
@@ -44,9 +44,9 @@ export const projects: Project[] = [
     name: "RAG Knowledge-Base Chatbot",
     image: "/work/rag-chatbot.png",
     problem:
-      "The team wanted a chatbot that answered from their own documents, but the documents kept changing — so any answer was only as current as the last manual re-upload.",
+      "Customer inquiries required manual responses, increasing support costs and slowing response times.",
     result:
-      "A Google Drive knowledge base now syncs itself into a Supabase vector store: files added, updated, or deleted are re-embedded automatically. An AI agent answers questions against that always-current store, with memory for natural back-and-forth.",
+      "The RAG knowledge-base chatbot provides instant, accurate answers 24/7, saving time and support costs while improving customer experience.",
     stack: ["n8n", "Supabase", "Google Drive", "Google Vertex", "OpenRouter", "AI Agent"],
   },
   {
@@ -54,9 +54,9 @@ export const projects: Project[] = [
     name: "Invoice Processing Automation",
     image: "/work/invoice-automation.png",
     problem:
-      "Invoices landed as PDFs in a Drive folder and had to be opened, read, and typed into a spreadsheet one by one — tedious, and a magnet for typos.",
+      "Manual invoice processing was time-consuming, error-prone, and increased operational costs.",
     result:
-      "A new PDF in Drive now triggers the workflow end to end: the invoice is parsed, the key fields are pulled out by an LLM into structured data, the record is logged to the database, and an internal notification email goes out — no manual entry at all.",
+      "Automated invoice processing saves time and costs by extracting data, reducing manual errors, and speeding up approvals and record-keeping.",
     stack: ["n8n", "Google Drive", "OpenRouter", "Google Sheets", "Gmail"],
   },
   {
@@ -64,9 +64,9 @@ export const projects: Project[] = [
     name: "Facebook FAQ AI Agent",
     image: "/work/fb-faq-agent.png",
     problem:
-      "A Facebook page kept getting the same questions, and someone had to sit there answering them by hand — with replies slowing down outside working hours.",
+      "Responding to Facebook inquiries manually was slow, repetitive, and increased support costs.",
     result:
-      "A webhook-driven AI agent now answers Messenger FAQs automatically from a knowledge base, with short-term memory for context, and replies around the clock. Facebook's verification handshake is handled in the same workflow.",
+      "The AI agent answers FAQs instantly 24/7, saving time and support costs while delivering faster, consistent customer responses.",
     stack: ["n8n", "OpenAI", "Facebook Messenger", "Webhooks", "Knowledge Base"],
   },
 ];

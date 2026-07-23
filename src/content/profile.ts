@@ -26,7 +26,7 @@ export const profile = {
 
   // Shown in the hero, under the name.
   tagline:
-    "I build funnels, websites, and CRM workflows — then automate the backend with n8n and AI so the busywork runs itself.",
+    "I build AI automation systems that eliminate manual, repetitive tasks, helping businesses save time, reduce costs, and scale faster.",
 
   // Availability badge in the hero.
   availability: "Open to part-time or full-time roles",

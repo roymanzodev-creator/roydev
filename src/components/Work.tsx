@@ -37,8 +37,8 @@ export function Work() {
     <Section
       id="work"
       label="04 / Work"
-      heading="Selected case studies"
-      intro="Automations I've built — the problem each one solved, and what changed once it was live."
+      heading="AI Automation Projects"
+      intro="Explore real-world AI automation systems I've built to streamline operations, eliminate repetitive tasks, and help businesses save time, reduce costs, and scale efficiently."
     >
       <Reveal>
         <div

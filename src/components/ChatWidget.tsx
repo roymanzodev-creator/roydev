@@ -11,30 +11,32 @@ type Message = {
 };
 
 /**
- * Send a message to the configured webhook.
+ * Send a message to our API route, which forwards to n8n server-side.
  *
- * Contract (once chat.webhookUrl is set): POSTs JSON
- *   { message: string, history: { role, text }[] }
- * and expects a JSON response with a `reply` (or `message`/`text`) string.
- * Adjust the parsing below to match whatever the webhook actually returns.
+ * POSTs { message, history } and expects { reply } back. The route is
+ * responsible for talking to n8n and for filtering out n8n's "workflow
+ * started" acknowledgement, so anything that arrives here is a real reply.
  */
-async function sendToWebhook(message: string, history: Message[]): Promise<string> {
-  if (!chat.webhookUrl) {
-    // No backend yet — simulate a short round-trip so the UI feels real.
+async function sendMessage(message: string, history: Message[]): Promise<string> {
+  if (!chat.endpoint) {
+    // Preview mode — no backend call, so styling work costs nothing.
     await new Promise((resolve) => setTimeout(resolve, 500));
     return chat.fallbackReply;
   }
 
-  const res = await fetch(chat.webhookUrl, {
+  const res = await fetch(chat.endpoint, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ message, history }),
   });
 
-  if (!res.ok) throw new Error(`Webhook responded ${res.status}`);
+  if (!res.ok) throw new Error(`Chat endpoint responded ${res.status}`);
 
   const data = await res.json();
-  return data.reply ?? data.message ?? data.text ?? chat.errorReply;
+  if (typeof data.reply !== "string" || !data.reply.trim()) {
+    throw new Error("Chat endpoint returned no reply");
+  }
+  return data.reply;
 }
 
 export function ChatWidget() {
@@ -79,7 +81,7 @@ export function ChatWidget() {
     setSending(true);
 
     try {
-      const reply = await sendToWebhook(text, history);
+      const reply = await sendMessage(text, history);
       setMessages((prev) => [...prev, { role: "assistant", text: reply }]);
     } catch {
       setMessages((prev) => [...prev, { role: "assistant", text: chat.errorReply }]);

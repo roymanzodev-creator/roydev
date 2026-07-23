@@ -65,7 +65,7 @@ export function Experience() {
       <div className="mt-14 border-t border-line pt-10">
         <Reveal>
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
-            Projects &amp; additional experience
+            Additional experience
           </p>
 
           <div className="mt-6 space-y-6">
