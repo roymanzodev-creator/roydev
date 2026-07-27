@@ -8,6 +8,9 @@
  *
  * Set N8N_CHAT_WEBHOOK_URL in .env.local and in the host's env vars.
  *
+ * Forwards { message, chatInput, sessionId, history, sentAt }. The workflow's
+ * memory should key on `sessionId` so each visitor keeps a separate thread.
+ *
  * IMPORTANT — the n8n workflow must end in a "Respond to Webhook" node that
  * returns the assistant's text. If the Webhook node is left on "Respond
  * immediately", n8n answers {"message":"Workflow was started"} before the
@@ -42,7 +45,7 @@ export async function POST(request: Request) {
     );
   }
 
-  let body: { message?: string; history?: unknown };
+  let body: { message?: string; history?: unknown; sessionId?: string };
   try {
     body = await request.json();
   } catch {
@@ -54,6 +57,10 @@ export async function POST(request: Request) {
     return Response.json({ error: "Message is required." }, { status: 400 });
   }
 
+  // Fall back to a per-request id if the client didn't send one, so memory
+  // never keys everything onto a single shared conversation.
+  const sessionId = body.sessionId?.trim() || crypto.randomUUID();
+
   try {
     const res = await fetch(webhookUrl, {
       method: "POST",
@@ -64,7 +71,11 @@ export async function POST(request: Request) {
           : {}),
       },
       body: JSON.stringify({
+        // Sent under both keys: n8n chat/AI-Agent builds usually read
+        // `chatInput`, while a plain Webhook build may read `message`.
         message,
+        chatInput: message,
+        sessionId,
         history: Array.isArray(body.history) ? body.history : [],
         sentAt: new Date().toISOString(),
       }),

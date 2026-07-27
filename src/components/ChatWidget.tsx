@@ -11,11 +11,27 @@ type Message = {
 };
 
 /**
+ * A stable per-visitor id, so n8n's window buffer memory keeps each visitor's
+ * conversation separate. Persisted in localStorage, so it survives reloads and
+ * the same visitor keeps the same thread; a new browser gets a fresh one.
+ */
+function getSessionId(): string {
+  if (typeof window === "undefined") return "server";
+  const KEY = "roy-chat-session-id";
+  let id = localStorage.getItem(KEY);
+  if (!id) {
+    id = crypto.randomUUID();
+    localStorage.setItem(KEY, id);
+  }
+  return id;
+}
+
+/**
  * Send a message to our API route, which forwards to n8n server-side.
  *
- * POSTs { message, history } and expects { reply } back. The route is
- * responsible for talking to n8n and for filtering out n8n's "workflow
- * started" acknowledgement, so anything that arrives here is a real reply.
+ * POSTs { message, history, sessionId } and expects { reply } back. The route
+ * talks to n8n and filters out n8n's "workflow started" acknowledgement, so
+ * anything that arrives here is a real reply.
  */
 async function sendMessage(message: string, history: Message[]): Promise<string> {
   if (!chat.endpoint) {
@@ -27,7 +43,7 @@ async function sendMessage(message: string, history: Message[]): Promise<string>
   const res = await fetch(chat.endpoint, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ message, history }),
+    body: JSON.stringify({ message, history, sessionId: getSessionId() }),
   });
 
   if (!res.ok) throw new Error(`Chat endpoint responded ${res.status}`);
